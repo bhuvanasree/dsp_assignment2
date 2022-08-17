@@ -1,0 +1,53 @@
+ Import pandas as pd.**
+import pandas as pd
+
+** Read Salaries.csv as a dataframe called sal.**
+df=pd.read_csv("Salaries.csv")
+
+** Check the head of the DataFrame. **
+df.head()
+
+** Use the .info() method to find out how many entries there are.**
+df.info()
+
+What is the average BasePay ?
+df["BasePay"].mean()
+
+** What is the highest amount of OvertimePay in the dataset ? **
+df["OvertimePay"].max()
+
+** What is the job title of JOSEPH DRISCOLL ? Note: Use all caps, otherwise you may get an answer that doesn't match up (there is also a lowercase Joseph Driscoll). **
+df[df["EmployeeName"]=="JOSEPH DRISCOLL"]["JobTitle"]
+
+** How much does JOSEPH DRISCOLL make (including benefits)? **
+df[df["EmployeeName"]=="JOSEPH DRISCOLL"]["TotalPayBenefits"]
+
+** What is the name of highest paid person (including benefits)?**
+df[df["TotalPayBenefits"]==df["TotalPayBenefits"].max()]
+
+** What is the name of lowest paid person (including benefits)? Do you notice something strange about how much he or she is paid?**
+df[df["TotalPayBenefits"]==df["TotalPayBenefits"].min()]
+
+** What was the average (mean) BasePay of all employees per year? (2011-2014) ? **
+df.groupby("Year").mean()["BasePay"]
+
+** How many unique job titles are there? **
+df["JobTitle"].nunique()
+
+** What are the top 5 most common jobs? **
+df["JobTitle"].value_counts().head()
+
+** How many Job Titles were represented by only one person in 2013? (e.g. Job Titles with only one occurence in 2013?) **
+df[df['Year']==2013]['JobTitle'].value_counts()
+
+** How many people have the word Chief in their job title? (This is pretty tricky) **
+def chief_string(title):
+    if 'chief' in title.lower():
+        return True
+    else:
+        return False
+df['JobTitle'].iloc[0]
+
+** Bonus: Is there a correlation between length of the Job Title string and Salary? **
+df['title_len'] = df['JobTitle'].apply(len)
+df[['JobTitle', 'title_len']].head()
